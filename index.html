@@ -6,7 +6,7 @@
 <title>DAIGEST: your newsletters, filtered into one mail</title>
 <meta name="description" content="DAIGEST is a free Claude skill that reads your newsletters and sends you one mail: what connects across them, what deserves your time, and what you can skip.">
 <link rel="canonical" href="https://mydaigest.github.io/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20stroke-linecap%3D%22round%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%231A1B1E%22%2F%3E%3Cg%20stroke%3D%22%23F1F0EA%22%20stroke-opacity%3D%22.45%22%20stroke-width%3D%224.5%22%3E%3Cline%20x1%3D%2214%22%20y1%3D%2217%22%20x2%3D%2250%22%20y2%3D%2217%22%2F%3E%3Cline%20x1%3D%2214%22%20y1%3D%2227%22%20x2%3D%2241%22%20y2%3D%2227%22%2F%3E%3Cline%20x1%3D%2214%22%20y1%3D%2237%22%20x2%3D%2246%22%20y2%3D%2237%22%2F%3E%3C%2Fg%3E%3Cline%20x1%3D%2214%22%20y1%3D%2249%22%20x2%3D%2250%22%20y2%3D%2249%22%20stroke%3D%22%23DE8E0A%22%20stroke-width%3D%228%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%231A1B1E%22%2F%3E%3Cg%20transform%3D%22translate(14%2014)%20scale(1.15)%22%3E%3Cpath%20d%3D%22M24%2011.5V25a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2V11a2%202%200%200%201%202-2h11%22%20stroke%3D%22%23F1F0EA%22%20stroke-width%3D%222.6%22%2F%3E%3Cpath%20d%3D%22M5%2011.5l8.5%207L29%204%22%20stroke%3D%22%23F0A828%22%20stroke-width%3D%223.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mydaigest.github.io/">
 <meta property="og:title" content="DAIGEST: your newsletters, filtered into one mail">
@@ -78,17 +78,17 @@
   .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding-inline: 32px; padding-block: 26px 48px; }
   section { scroll-margin-top: 24px; }
 
-  /* ---------- Logo: many grey lines, one amber line, and AI as a marker swipe ---------- */
-  .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
-  .logo-mark { width: 30px; height: 30px; flex: none; }
-  .logo-mark .noise { stroke: color-mix(in srgb, var(--ink) 28%, transparent); }
-  .logo-mark .signal { stroke: var(--accent); }
-  .logo-word { font-weight: 800; font-size: 1.18rem; letter-spacing: .02em; line-height: 1; display: inline-flex; align-items: center; }
-  .logo-word .ai { position: relative; margin: 0 2px; padding: 1px 4px 0; color: var(--accent-ink); z-index: 0; }
-  .logo-word .ai::before {
-    content: ""; position: absolute; inset: -1px -1px 0; z-index: -1;
-    background: var(--accent); border-radius: 3px 6px 4px 7px; transform: skew(-8deg) rotate(-2deg);
-  }
+  /* ---------- Logo: an envelope whose flap is a check mark (only what's worth it),
+     and "ai" set as a handwritten italic among machine caps ---------- */
+  .logo { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); text-decoration: none; line-height: 1; }
+  .logo-mark { width: 1.75em; height: 1.75em; flex: none; overflow: visible; }
+  .logo-mark .env { stroke: currentColor; }
+  .logo-mark .tick { stroke: var(--accent); }
+  .logo-word { font-weight: 800; font-size: 1.18em; letter-spacing: .03em; display: inline-flex; align-items: baseline; }
+  .logo-word i { font-family: var(--serif); font-style: italic; font-weight: 600; color: var(--accent); font-size: 1.12em; letter-spacing: 0; margin: 0 .04em 0 .02em; }
+  header .logo, footer .logo { font-size: 1rem; }
+  .btn .logo { color: inherit; font-size: 1em; gap: 7px; }
+  .btn .logo-mark { width: 1.6em; height: 1.6em; }
   .tag { font-family: var(--mono); font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; }
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
@@ -144,8 +144,10 @@
 
   /* ---------- Section heads ---------- */
   .band { padding-block: 44px; border-top: 1px solid var(--line); }
-  .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; max-width: 62ch; }
-  .sec-head h2 { font-size: clamp(1.5rem, 3vw, 2.05rem); letter-spacing: -.02em; line-height: 1.12; }
+  .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .sec-head h2 { font-size: clamp(1.5rem, 2.9vw, 2rem); letter-spacing: -.02em; line-height: 1.12; }
+  .sec-head .lead { max-width: none; }
+  @media (min-width: 901px) { .sec-head h2, .sec-head .lead { white-space: nowrap; } }
 
   /* ---------- Setup as a conversation ---------- */
   .setup { display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: start; }
@@ -205,13 +207,11 @@
 <div class="page">
   <header class="top">
     <a class="logo" href="#" aria-label="DAIGEST">
-      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <line class="noise" x1="5" y1="7" x2="27" y2="7" stroke-width="2.4"/>
-        <line class="noise" x1="5" y1="13" x2="22" y2="13" stroke-width="2.4"/>
-        <line class="noise" x1="5" y1="19" x2="25" y2="19" stroke-width="2.4"/>
-        <line class="signal" x1="5" y1="26" x2="27" y2="26" stroke-width="5"/>
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path class="env" d="M24 11.5V25a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V11a2 2 0 0 1 2-2h11" stroke-width="2.4"/>
+        <path class="tick" d="M5 11.5l8.5 7L29 4" stroke-width="3.4"/>
       </svg>
-      <span class="logo-word">D<span class="ai">AI</span>GEST</span>
+      <span class="logo-word">D<i>ai</i>GEST</span>
     </a>
     <span class="tag">Early access</span>
   </header>
@@ -223,9 +223,15 @@
       <h1 id="hero-title"><span>All Your Newsletters,</span> <span>Filtered into One Mail.</span></h1>
       <p class="lead">One mail a day with what connects across your newsletters, which ones deserve your time, and a link back to each original.</p>
       <div class="hero-cta">
-        <a class="btn btn-ink" href="#install">
-          Get My D<span class="cta-hl">ai</span>gest
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <a class="btn btn-ink" href="#install" aria-label="Get my DAIGEST">
+          <span aria-hidden="true">Get my</span>
+          <span class="logo" aria-hidden="true">
+            <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path class="env" d="M24 11.5V25a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V11a2 2 0 0 1 2-2h11" stroke-width="2.4"/>
+              <path class="tick" d="M5 11.5l8.5 7L29 4" stroke-width="3.4"/>
+            </svg>
+            <span class="logo-word">D<i>ai</i>GEST</span>
+          </span>
         </a>
         <a class="soft" href="#setup">See how setup works</a>
       </div>
@@ -315,15 +321,13 @@
 
   <footer>
     <a class="logo" href="#" aria-label="DAIGEST, back to top">
-      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <line class="noise" x1="5" y1="7" x2="27" y2="7" stroke-width="2.4"/>
-        <line class="noise" x1="5" y1="13" x2="22" y2="13" stroke-width="2.4"/>
-        <line class="noise" x1="5" y1="19" x2="25" y2="19" stroke-width="2.4"/>
-        <line class="signal" x1="5" y1="26" x2="27" y2="26" stroke-width="5"/>
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path class="env" d="M24 11.5V25a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V11a2 2 0 0 1 2-2h11" stroke-width="2.4"/>
+        <path class="tick" d="M5 11.5l8.5 7L29 4" stroke-width="3.4"/>
       </svg>
-      <span class="logo-word">D<span class="ai">AI</span>GEST</span>
+      <span class="logo-word">D<i>ai</i>GEST</span>
     </a>
-    <a class="link" href="https://github.com/mydaigest/daigest">GitHub</a>
+    <a class="link" href="https://github.com/mydaigest/daigest" target="_blank" rel="noopener">GitHub</a>
   </footer>
 </div>
 
@@ -393,7 +397,26 @@
     chat.innerHTML = html;
     chat.setAttribute("aria-labelledby", buttons[i].id);
   }
+
+  // Keep the panel as tall as the longest conversation, so the section
+  // below never jumps when switching steps.
+  function lockHeight() {
+    chat.style.minHeight = "";
+    var max = 0;
+    STEPS.forEach(function (_, i) { show(i); max = Math.max(max, chat.offsetHeight); });
+    chat.style.minHeight = max + "px";
+  }
+  lockHeight();
   show(0);
+  var t;
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      var cur = buttons.findIndex(function (b) { return b.getAttribute("aria-selected") === "true"; });
+      lockHeight();
+      show(cur < 0 ? 0 : cur);
+    }, 150);
+  });
 })();
 </script>
 
