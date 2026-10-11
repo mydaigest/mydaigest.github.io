@@ -6,7 +6,7 @@
 <title>DAIGEST: your newsletters, filtered into one mail</title>
 <meta name="description" content="DAIGEST is a free Claude skill that reads your newsletters and sends you one mail: what connects across them, what deserves your time, and what you can skip.">
 <link rel="canonical" href="https://mydaigest.github.io/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%231A1B1E%22%2F%3E%3Crect%20x%3D%2214%22%20y%3D%2236%22%20width%3D%2236%22%20height%3D%2210%22%20rx%3D%223%22%20fill%3D%22%23DE8E0A%22%20opacity%3D%22.85%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2244%22%20text-anchor%3D%22middle%22%20font-family%3D%22Segoe%20UI%2CArial%2Csans-serif%22%20font-size%3D%2234%22%20font-weight%3D%22700%22%20fill%3D%22%23F1F0EA%22%3ED%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20stroke-linecap%3D%22round%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%231A1B1E%22%2F%3E%3Cg%20stroke%3D%22%23F1F0EA%22%20stroke-opacity%3D%22.45%22%20stroke-width%3D%224.5%22%3E%3Cline%20x1%3D%2214%22%20y1%3D%2217%22%20x2%3D%2250%22%20y2%3D%2217%22%2F%3E%3Cline%20x1%3D%2214%22%20y1%3D%2227%22%20x2%3D%2241%22%20y2%3D%2227%22%2F%3E%3Cline%20x1%3D%2214%22%20y1%3D%2237%22%20x2%3D%2246%22%20y2%3D%2237%22%2F%3E%3C%2Fg%3E%3Cline%20x1%3D%2214%22%20y1%3D%2249%22%20x2%3D%2250%22%20y2%3D%2249%22%20stroke%3D%22%23DE8E0A%22%20stroke-width%3D%228%22%2F%3E%3C%2Fsvg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mydaigest.github.io/">
 <meta property="og:title" content="DAIGEST: your newsletters, filtered into one mail">
@@ -16,9 +16,9 @@
 </head>
 <body>
 <style>
-  /* Layout: one reading column with a two-up hero (pitch + the real mail), then
-     what lands in your inbox, the setup as a conversation, and install. Ink on
-     paper, amber as the highlighter that marks what matters. */
+  /* Layout: a short page. Two-up hero (pitch + the real mail), three pillars,
+     the setup as a conversation, then install. Ink on paper, amber as the
+     highlighter that marks what matters. */
   :root {
     --paper:      #F1F0EA;
     --surface:    #FFFFFF;
@@ -75,43 +75,53 @@
     mask-image: radial-gradient(120% 70% at 50% -10%, #000 30%, transparent 78%);
     opacity: .55;
   }
-  .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding-inline: 32px; padding-block: 26px 56px; }
+  .page { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding-inline: 32px; padding-block: 26px 48px; }
   section { scroll-margin-top: 24px; }
 
-  .wordmark { display: inline-flex; align-items: baseline; font-weight: 700; font-size: 1.12rem; letter-spacing: -.01em; }
-  .wordmark .hl { position: relative; padding: 0 2px; }
-  .wordmark .hl::after { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 40%; background: var(--accent); opacity: .5; border-radius: 2px; z-index: -1; }
+  /* ---------- Logo: many grey lines, one amber line, and AI as a marker swipe ---------- */
+  .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+  .logo-mark { width: 30px; height: 30px; flex: none; }
+  .logo-mark .noise { stroke: color-mix(in srgb, var(--ink) 28%, transparent); }
+  .logo-mark .signal { stroke: var(--accent); }
+  .logo-word { font-weight: 800; font-size: 1.18rem; letter-spacing: .02em; line-height: 1; display: inline-flex; align-items: center; }
+  .logo-word .ai { position: relative; margin: 0 2px; padding: 1px 4px 0; color: var(--accent-ink); z-index: 0; }
+  .logo-word .ai::before {
+    content: ""; position: absolute; inset: -1px -1px 0; z-index: -1;
+    background: var(--accent); border-radius: 3px 6px 4px 7px; transform: skew(-8deg) rotate(-2deg);
+  }
   .tag { font-family: var(--mono); font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; }
-  .top { display: flex; align-items: center; justify-content: space-between; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
   .eyebrow { font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-str); margin: 0; }
   h1, h2, h3 { text-wrap: balance; margin: 0; }
-  .lead { color: var(--ink-soft); max-width: 50ch; margin: 0; }
+  .lead { color: var(--ink-soft); max-width: 46ch; margin: 0; }
 
   .btn { font: inherit; font-weight: 600; cursor: pointer; border-radius: var(--r-md); border: 1px solid transparent; display: inline-flex; align-items: center; gap: 9px; text-decoration: none; transition: background .18s, transform .08s; }
   .btn:active { transform: translateY(1px); }
-  .btn:focus-visible, .step-btn:focus-visible, .link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn:focus-visible, .step-btn:focus-visible, .link:focus-visible, .logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .btn svg { width: 18px; height: 18px; }
   .btn-ink { background: var(--ink); color: var(--surface); box-shadow: var(--shadow-sm); padding: 16px 28px; font-size: 1.06rem; }
   .btn-ink:hover { background: color-mix(in srgb, var(--ink) 86%, var(--accent)); }
   .cta-hl { color: var(--accent); font-weight: 700; }
-  .link { color: var(--ink-soft); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
-  .link:hover { color: var(--ink); border-color: var(--accent); }
+  .link { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+  .link:hover { color: var(--accent-str); }
 
   /* ---------- Hero ---------- */
-  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; padding-block: 40px 56px; }
-  .hero-copy { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-  .hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.3rem); line-height: 1.04; letter-spacing: -.03em; }
-  .hero .lead { font-size: clamp(1rem, 1.6vw, 1.14rem); }
-  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 10px; }
-  .note { font-size: .86rem; color: var(--ink-faint); margin: 0; }
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding-block: 44px 52px; }
+  .hero-copy { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .hero h1 { font-size: clamp(2rem, 4.3vw, 3.15rem); line-height: 1.06; letter-spacing: -.03em; text-wrap: initial; }
+  .hero h1 span { display: block; white-space: nowrap; }
+  .hero .lead { font-size: clamp(1rem, 1.6vw, 1.15rem); }
+  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 6px; }
+  .hero-cta .soft { color: var(--ink-soft); font-weight: 600; text-decoration: none; }
+  .hero-cta .soft:hover { color: var(--ink); }
 
   /* the mail, as it actually arrives */
   .mail { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 22px 22px 18px; transform: rotate(1.2deg); min-width: 0; }
   .mail-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-left: 3px solid var(--accent); padding-left: 10px; margin-bottom: 16px; }
-  .mail-head b { font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; color: var(--accent-str); }
+  .mail-head b { font-size: .74rem; letter-spacing: .12em; color: var(--accent-str); }
   .mail-head span { font-family: var(--mono); font-size: .7rem; color: var(--ink-faint); }
-  .m-h { font-family: var(--sans); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-str); font-weight: 700; margin: 14px 0 8px; }
+  .m-h { font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-str); font-weight: 700; margin: 14px 0 8px; }
   .m-conn { background: var(--accent-tint); border-radius: 8px; padding: 10px 12px; }
   .m-conn strong { display: block; font-family: var(--serif); font-size: 1.02rem; margin-bottom: 2px; }
   .m-conn p { font-family: var(--serif); font-size: .86rem; color: var(--ink-soft); margin: 0; line-height: 1.45; }
@@ -133,28 +143,13 @@
   .pillar p { font-size: .94rem; color: var(--ink-soft); margin: 0; }
 
   /* ---------- Section heads ---------- */
-  .band { padding-block: 48px; border-top: 1px solid var(--line); }
-  .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; max-width: 62ch; }
+  .band { padding-block: 44px; border-top: 1px solid var(--line); }
+  .sec-head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; max-width: 62ch; }
   .sec-head h2 { font-size: clamp(1.5rem, 3vw, 2.05rem); letter-spacing: -.02em; line-height: 1.12; }
-
-  /* ---------- What lands in your inbox ---------- */
-  .anatomy { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; }
-  .fields { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-  .f-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 18px; }
-  .f-card h3 { font-size: 1rem; display: flex; align-items: center; gap: 10px; }
-  .f-card h3 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
-  .f-card p { margin: 6px 0 0; font-size: .92rem; color: var(--ink-soft); }
-  .tiers { display: flex; flex-direction: column; min-width: 0; }
-  .tier { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding-block: 16px; border-bottom: 1px solid var(--line); }
-  .tier:first-child { padding-top: 0; }
-  .tier:last-child { border-bottom: 0; }
-  .tier-mark { font-family: var(--mono); font-size: .8rem; color: var(--accent-str); padding-top: 2px; }
-  .tier h3 { font-size: 1rem; }
-  .tier p { margin: 4px 0 0; font-size: .92rem; color: var(--ink-soft); }
 
   /* ---------- Setup as a conversation ---------- */
   .setup { display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: start; }
-  .steps { display: flex; flex-direction: column; gap: 6px; list-style: none; margin: 0; padding: 0; counter-reset: s; }
+  .steps { display: flex; flex-direction: column; gap: 6px; list-style: none; margin: 0; padding: 0; }
   .step-btn { width: 100%; text-align: left; font: inherit; color: var(--ink-soft); background: transparent; border: 1px solid transparent; border-radius: var(--r-md); padding: 11px 14px; cursor: pointer; display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: baseline; }
   .step-btn .n { font-family: var(--mono); font-size: .78rem; color: var(--ink-faint); }
   .step-btn .t { font-weight: 600; }
@@ -169,36 +164,38 @@
   .msg.you { background: var(--accent-tint); align-self: flex-end; border-bottom-right-radius: 4px; }
   .msg .who { display: block; font-family: var(--mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
   .msg ul { margin: 6px 0 0; padding-left: 18px; }
-  .example { font-size: .8rem; color: var(--ink-faint); margin: 4px 0 0; }
 
   /* ---------- Install ---------- */
-  .install { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; }
-  .inst-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-  .inst-steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 18px; }
-  .inst-steps .n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--surface); font-weight: 700; font-size: .9rem; }
+  .inst-steps { list-style: none; margin: 0 0 32px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .inst-steps li { display: grid; grid-template-columns: 30px 190px 1fr; gap: 16px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 20px; }
+  .inst-steps .n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--surface); font-weight: 700; font-size: .86rem; }
   .inst-steps h3 { font-size: 1rem; }
-  .inst-steps p { margin: 4px 0 0; font-size: .92rem; color: var(--ink-soft); }
-  .soon { font-family: var(--mono); font-size: .62rem; letter-spacing: .05em; text-transform: uppercase; color: var(--accent-str); background: var(--accent-tint); border-radius: 999px; padding: 2px 8px; margin-left: 6px; vertical-align: 2px; }
-  code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 6px; padding: 1px 6px; }
-  .facts { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+  .inst-steps p { margin: 0; font-size: .95rem; color: var(--ink-soft); min-width: 0; }
+  code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 6px; padding: 1px 6px; color: var(--ink); }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   .facts h3 { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px; }
   .facts ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .facts li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; font-size: .93rem; color: var(--ink-soft); }
+  .facts li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; font-size: .95rem; color: var(--ink-soft); }
   .facts li svg { width: 16px; height: 16px; margin-top: 3px; color: var(--good); }
   .facts li.later svg { color: var(--ink-faint); }
 
-  footer { border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: .86rem; color: var(--ink-faint); }
+  footer { border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; font-size: .9rem; }
+  footer .link { font-weight: 600; }
 
-  @media (max-width: 860px) {
-    .hero, .anatomy, .install { grid-template-columns: 1fr; gap: 32px; }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; }
+    .hero h1 { font-size: clamp(2rem, 7vw, 3.15rem); }
     .setup { grid-template-columns: 1fr; gap: 18px; }
     .steps { flex-direction: row; overflow-x: auto; padding-bottom: 6px; }
     .step-btn { white-space: nowrap; grid-template-columns: auto auto; }
     .mail { transform: none; max-width: 460px; }
-    .pillars { grid-template-columns: 1fr; gap: 26px; }
+    .pillars, .facts { grid-template-columns: 1fr; gap: 26px; }
+    .inst-steps li { grid-template-columns: 30px 1fr; }
+    .inst-steps p { grid-column: 2; }
   }
   @media (max-width: 480px) {
     .page { padding-inline: 18px; }
+    .hero h1 span { white-space: normal; }
     .msg { max-width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
@@ -207,7 +204,15 @@
 
 <div class="page">
   <header class="top">
-    <span class="wordmark">D<span class="hl">AI</span>GEST</span>
+    <a class="logo" href="#" aria-label="DAIGEST">
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+        <line class="noise" x1="5" y1="7" x2="27" y2="7" stroke-width="2.4"/>
+        <line class="noise" x1="5" y1="13" x2="22" y2="13" stroke-width="2.4"/>
+        <line class="noise" x1="5" y1="19" x2="25" y2="19" stroke-width="2.4"/>
+        <line class="signal" x1="5" y1="26" x2="27" y2="26" stroke-width="5"/>
+      </svg>
+      <span class="logo-word">D<span class="ai">AI</span>GEST</span>
+    </a>
     <span class="tag">Early access</span>
   </header>
 
@@ -215,16 +220,15 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy">
       <p class="eyebrow">A free skill for Claude</p>
-      <h1 id="hero-title">All Your Newsletters, Filtered into One Mail.</h1>
-      <p class="lead">You're subscribed to more newsletters than you can read. DAIGEST reads them every morning (or once a week), tells you what connects across them and which ones deserve your time today, and links you straight back to each original email. It runs in your own Claude. Your inbox stays clean.</p>
+      <h1 id="hero-title"><span>All Your Newsletters,</span> <span>Filtered into One Mail.</span></h1>
+      <p class="lead">One mail a day with what connects across your newsletters, which ones deserve your time, and a link back to each original.</p>
       <div class="hero-cta">
         <a class="btn btn-ink" href="#install">
           Get My D<span class="cta-hl">ai</span>gest
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="link" href="#setup">See how setup works</a>
+        <a class="soft" href="#setup">See how setup works</a>
       </div>
-      <p class="note">Free. Works with Gmail today, Outlook soon.</p>
     </div>
 
     <aside class="mail" aria-label="Example of a DAIGEST mail">
@@ -251,7 +255,7 @@
     <article class="pillar">
       <span class="p-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg></span>
       <h3>One mail, not fifty.</h3>
-      <p>Your newsletters move to their own folder, already marked as read. What reaches your inbox is a single mail that sorts them for you.</p>
+      <p>Your newsletters move to their own folder. What reaches your inbox is a single mail that sorts them for you.</p>
     </article>
     <article class="pillar">
       <span class="p-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5a2 2 0 00-2-2H4a2 2 0 00-2 2v6a2 2 0 002 2h4"/><path d="M14 21c3 0 7-1 7-8V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v6a2 2 0 002 2h4"/></svg></span>
@@ -263,37 +267,6 @@
       <h3>Tuned to what you care about.</h3>
       <p>Your Claude already knows your work and your interests. DAIGEST starts from that, you correct it once, and every mail is filtered through it.</p>
     </article>
-  </section>
-
-  <!-- ---------- What lands in your inbox ---------- -->
-  <section class="band" id="mail" aria-labelledby="mail-title">
-    <div class="sec-head">
-      <p class="eyebrow">What lands in your inbox</p>
-      <h2 id="mail-title">Your reads, sorted by what you care about and by how much time they deserve.</h2>
-    </div>
-    <div class="anatomy">
-      <div class="fields">
-        <article class="f-card">
-          <h3><span class="dot"></span>Knowledge</h3>
-          <p>Everything about your work. This is where DAIGEST filters hardest and looks for ideas that connect across sources.</p>
-        </article>
-        <article class="f-card">
-          <h3><span class="dot"></span>Mindset and humanities</h3>
-          <p>Philosophy, spirituality, the Stoics, the essays that make you think about how you live.</p>
-        </article>
-        <article class="f-card">
-          <h3><span class="dot"></span>News</h3>
-          <p>From news newsletters like Morning Brew you get the headlines that matter to you, written in a sentence each, instead of a whole issue to scroll.</p>
-        </article>
-        <p class="example">These are the default fields. Setup adapts them to you, from two to four.</p>
-      </div>
-      <div class="tiers">
-        <div class="tier"><span class="tier-mark">top</span><div><h3>What connects today</h3><p>A line on each field, then the links between them: two sources saying the same thing from different places, or an old idea that sheds light on a work problem.</p></div></div>
-        <div class="tier"><span class="tier-mark">1st</span><div><h3>Worth your time</h3><p>The best of each field, each with the reason it matters to you.</p></div></div>
-        <div class="tier"><span class="tier-mark">2nd</span><div><h3>If you have time</h3><p>Good, but not today's priority.</p></div></div>
-        <div class="tier"><span class="tier-mark">3rd</span><div><h3>Skip it</h3><p>Promotions, upgrade pitches, welcome series and news that doesn't concern you. Listed, so nothing goes missing.</p></div></div>
-      </div>
-    </div>
   </section>
 
   <!-- ---------- Setup ---------- -->
@@ -315,36 +288,42 @@
       <p class="eyebrow">Get it</p>
       <h2 id="install-title">Three steps and your first DAIGEST is on its way.</h2>
     </div>
-    <div class="install">
-      <ol class="inst-steps">
-        <li><span class="n">1</span><div><h3>Download the skill</h3><p>A small zip with DAIGEST's instructions for Claude. <a class="link" href="https://github.com/mydaigest/daigest/releases/latest/download/daigest.zip">Download daigest.zip</a></p><p>Source on <a class="link" href="https://github.com/mydaigest/daigest">GitHub</a>.</p></div></li>
-        <li><span class="n">2</span><div><h3>Add it to Claude</h3><p>Settings, then Capabilities, then Skills, and upload the zip.</p></div></li>
-        <li><span class="n">3</span><div><h3>Say the word</h3><p>Open Cowork and type <code>Set up DAIGEST</code>. Claude takes it from there.</p></div></li>
-      </ol>
-      <div class="facts">
-        <div>
-          <h3>You need</h3>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>A paid Claude plan with Cowork and scheduled tasks</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Gmail, with Claude's Gmail connector turned on</span></li>
-            <li class="later"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Outlook and Hotmail are coming soon</span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Your privacy</h3>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Your own Claude reads your newsletters. DAIGEST has no server that touches your inbox.</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Only the senders you confirm as newsletters are read. Personal mail is left alone.</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>To stop, delete the scheduled task. Nothing else to cancel.</span></li>
-          </ul>
-        </div>
+    <ol class="inst-steps">
+      <li><span class="n">1</span><h3>Download the skill</h3><p>A small zip with DAIGEST's instructions. <a class="link" href="https://github.com/mydaigest/daigest/releases/latest/download/daigest.zip">Download daigest.zip</a></p></li>
+      <li><span class="n">2</span><h3>Add it to Claude</h3><p>Upload it in Settings, Capabilities, Skills. Claude learns DAIGEST and waits until you ask.</p></li>
+      <li><span class="n">3</span><h3>Start the setup</h3><p>In Cowork, type <code>Set up DAIGEST</code>. Claude asks six questions and sends your first mail.</p></li>
+    </ol>
+    <div class="facts">
+      <div>
+        <h3>You need</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>A paid Claude plan with Cowork</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Gmail, with Claude's Gmail connector on</span></li>
+          <li class="later"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Outlook and Hotmail: coming soon</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Your privacy</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Your own Claude reads your mail, no DAIGEST server</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Only the newsletters you confirm are read</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>To stop, delete the scheduled task</span></li>
+        </ul>
       </div>
     </div>
   </section>
 
   <footer>
-    <span class="wordmark">D<span class="hl">AI</span>GEST</span>
-    <span>Free. Made by Borja Anadón.</span>
+    <a class="logo" href="#" aria-label="DAIGEST, back to top">
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+        <line class="noise" x1="5" y1="7" x2="27" y2="7" stroke-width="2.4"/>
+        <line class="noise" x1="5" y1="13" x2="22" y2="13" stroke-width="2.4"/>
+        <line class="noise" x1="5" y1="19" x2="25" y2="19" stroke-width="2.4"/>
+        <line class="signal" x1="5" y1="26" x2="27" y2="26" stroke-width="5"/>
+      </svg>
+      <span class="logo-word">D<span class="ai">AI</span>GEST</span>
+    </a>
+    <a class="link" href="https://github.com/mydaigest/daigest">GitHub</a>
   </footer>
 </div>
 
@@ -365,9 +344,9 @@
       ["you", "Drop all three."],
       ["claude", "16 newsletters confirmed. I also found two extra addresses Lenny and Morning Brew send from, so nothing slips through."] ] },
     { t: "Clean your inbox", m: [
-      ["claude", "Want your newsletters filed in a Newsletters label, marked as read, so your inbox only shows real mail?"],
+      ["claude", "Want your newsletters filed in a Newsletters label so your inbox only shows real mail?"],
       ["you", "Yes, including the old ones."],
-      ["claude", "Label created. Last step is a Gmail filter: I've written the exact query, you paste it in and tick three boxes. Takes 30 seconds."] ] },
+      ["claude", "Label created. Last step is a Gmail filter: I've written the exact query, you paste it in and tick two boxes. Takes 30 seconds."] ] },
     { t: "Pick how often", m: [
       ["claude", "Daily or weekly? And at what time?"],
       ["you", "Daily, at 8:00."],
